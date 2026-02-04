@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Home: React.FC<{ user: any }> = ({ user }) => {
   const [offerSlide, setOfferSlide] = useState(0);
@@ -177,23 +178,20 @@ const Home: React.FC<{ user: any }> = ({ user }) => {
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-orange-500" style={{backgroundImage: 'url("/images/bghome.jpg")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed'}}>
       
-      {/* GLOBAL NAVBAR */}
-      <header className="relative z-50 px-6 lg:px-20 py-4 flex items-center justify-between bg-slate-900 shadow-lg mx-0 lg:mx-20 mt-0 lg:mt-6 rounded-none lg:rounded-md">
+      {/* Add Navbar Component */}
+      <Navbar user={user} />
+      
+      {/* Add padding for large screens to account for fixed navbar */}
+      <div className="lg:pt-16">
+      
+      {/* GLOBAL NAVBAR - Keep for mobile fallback */}
+      <header className="lg:hidden relative z-50 px-6 py-4 flex items-center justify-between bg-slate-900 shadow-lg mx-0 rounded-none">
         <button onClick={() => handleNavClick('home')} className="flex items-center">
           <img src="/images/auth-logo.png" alt="Metacryptotrading" className="h-10 object-contain" />
         </button>
-        <div className="hidden lg:flex items-center space-x-8 text-[11px] font-black text-white uppercase tracking-tight">
-          <button onClick={() => handleNavClick('home')} className={`hover:text-orange-500 transition-colors ${view === 'home' ? 'text-orange-500' : ''}`}>Home</button>
-          <button onClick={() => handleNavClick('home', 'about')} className="hover:text-orange-500 transition-colors">About Us</button>
-          <button onClick={() => handleNavClick('home', 'plans')} className="hover:text-orange-500 transition-colors">Plans</button>
-          <button onClick={() => handleNavClick('faq')} className={`hover:text-orange-500 transition-colors ${view === 'faq' ? 'text-orange-500' : ''}`}>FAQ</button>
-          <button onClick={() => handleNavClick('contact')} className={`hover:text-orange-500 transition-colors ${view === 'contact' ? 'text-orange-500' : ''}`}>Contact Us</button>
-          <Link to="/login" className="bg-slate-800 text-white px-5 py-2 hover:bg-black transition-all">Login</Link>
-          <Link to="/register" className="bg-slate-800 text-white px-5 py-2 hover:bg-black transition-all">Register</Link>
-        </div>
-        <div className="absolute -top-6 right-0 bg-orange-500 px-6 py-1 rounded-tl-lg hidden lg:flex space-x-6 text-[10px] font-bold text-white">
-          <span>Email: support@metacryptotrading.net</span>
-          <span>Mon - Sun 8.00 - 20.00</span>
+        <div className="flex items-center space-x-4">
+          <Link to="/login" className="bg-slate-800 text-white px-4 py-2 text-xs hover:bg-black transition-all">Login</Link>
+          <Link to="/register" className="bg-slate-800 text-white px-4 py-2 text-xs hover:bg-black transition-all">Register</Link>
         </div>
       </header>
 
@@ -1019,6 +1017,7 @@ const Home: React.FC<{ user: any }> = ({ user }) => {
           border-radius: 10px;
         }
       `}</style>
+      </div> {/* Close lg:pt-16 wrapper */}
     </div>
   );
 };

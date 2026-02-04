@@ -8,6 +8,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions';
 import AMLPolicy from './pages/AMLPolicy';
 import PaymentPolicy from './pages/PaymentPolicy';
+import Contact from './pages/Contact';
+import Faq from './pages/Faq';
 import Overview from './pages/dashboard/Overview';
 import Fund from './pages/dashboard/Fund';
 import Affiliate from './pages/dashboard/Affiliate';
@@ -43,36 +45,36 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="pt-16"> {/* Add padding-top for fixed navbar */}
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home user={user} />} />
-          <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} />} />
-          <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register setUser={setUser} />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsAndConditions />} />
-          <Route path="/aml" element={<AMLPolicy />} />
-          <Route path="/payment-policy" element={<PaymentPolicy />} />
-          
-          <Route path="/dashboard" element={user ? <Dashboard user={user} setUser={setUser} /> : <Navigate to="/login" />}>
-            <Route index element={<Overview user={user} />} />
-            <Route path="fund" element={<Fund />} />
-            <Route path="affiliate" element={<Affiliate user={user} />} />
-            <Route path="copy-traders" element={<CopyTraders />} />
-            <Route path="profile" element={<Profile user={user} />} />
-            <Route path="activity" element={<ActivityLog />} />
-            <Route path="deposit" element={<Deposit />} />
-            <Route path="withdraw" element={<Withdraw />} />
-            <Route path="buy-crypto" element={<BuyCrypto />} />
-            <Route path="mining" element={<Mining />} />
-            <Route path="trade-view" element={<TradeView />} />
-            <Route path="live-trade" element={<LiveTrade />} />
-          </Route>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home user={user} />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} />} />
+        <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register setUser={setUser} />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/aml" element={<AMLPolicy />} />
+        <Route path="/payment-policy" element={<PaymentPolicy />} />
+        
+        <Route path="/dashboard" element={user ? <Dashboard user={user} setUser={setUser} /> : <Navigate to="/login" />}>
+          <Route index element={<Overview user={user} />} />
+          <Route path="fund" element={<Fund />} />
+          <Route path="affiliate" element={<Affiliate user={user} />} />
+          <Route path="copy-traders" element={<CopyTraders />} />
+          <Route path="profile" element={<Profile user={user} />} />
+          <Route path="activity" element={<ActivityLog />} />
+          <Route path="deposit" element={<Deposit />} />
+          <Route path="withdraw" element={<Withdraw />} />
+          <Route path="buy-crypto" element={<BuyCrypto />} />
+          <Route path="mining" element={<Mining />} />
+          <Route path="trade-view" element={<TradeView />} />
+          <Route path="live-trade" element={<LiveTrade />} />
+        </Route>
 
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    </div>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 };
 
