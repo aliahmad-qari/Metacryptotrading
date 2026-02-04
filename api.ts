@@ -28,23 +28,34 @@ export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
       'Content-Type': 'application/json',
       ...options.headers,
     },
-    credentials: 'include',
     ...options,
   };
   
   try {
     const response = await fetch(url, defaultOptions);
     
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    let data;
+    try {
+      data = await response.json();
+    } catch (jsonError) {
+      // If JSON parsing fails, create error object with response text
+      const text = await response.text().catch(() => 'Unknown error');
+      data = { message: text || 'Invalid response format' };
     }
     
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    }
+    
     console.log(`✅ API Success:`, data);
     return data;
     
   } catch (error) {
     console.error(`❌ API Error:`, error);
+    // Handle network errors specifically
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Network error. Please check your connection.');
+    }
     throw error;
   }
 };

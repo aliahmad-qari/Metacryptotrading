@@ -13,7 +13,8 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',  // Vite dev server
   'http://localhost:3000',  // Alternative React dev server
-  'https://metacryptotrading.vercel.app',  // Production domain
+  'https://metacryptotrading-ia2b.vercel.app',  // NEW Production domain
+  'https://metacryptotrading.vercel.app',  // OLD Production domain (keep for compatibility)
   process.env.FRONTEND_URL  // Dynamic frontend URL from env
 ].filter(Boolean); // Remove undefined values
 
@@ -28,10 +29,12 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
