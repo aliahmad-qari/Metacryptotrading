@@ -12,8 +12,8 @@ const getApiUrl = () => {
     return 'http://localhost:5000';
   }
   
-  // Production fallback
-  return 'https://metacryptotrading.vercel.app';
+  // Production fallback - FIXED to point to Render backend
+  return 'https://metacryptotrading.onrender.com';
 };
 
 // API call wrapper with error handling

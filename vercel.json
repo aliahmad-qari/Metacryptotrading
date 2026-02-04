@@ -1,0 +1,10 @@
+{
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://metacryptotrading.onrender.com"
+    }
+  },
+  "env": {
+    "VITE_API_URL": "https://metacryptotrading.onrender.com"
+  }
+}
