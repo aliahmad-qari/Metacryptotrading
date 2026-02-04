@@ -29,24 +29,15 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
               <Link to="/faq" className="text-slate-300 hover:text-white transition-colors font-medium">FAQ</Link>
               <Link to="/contact" className="text-slate-300 hover:text-white transition-colors font-medium">Contact Us</Link>
               
-              {user ? (
+              <div className="flex items-center space-x-4">
+                <Link to="/login" className="text-white font-medium hover:text-orange-400 transition-colors">Login</Link>
                 <Link 
-                  to="/dashboard" 
+                  to="/register" 
                   className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold transition-all"
                 >
-                  Dashboard
+                  Join Us
                 </Link>
-              ) : (
-                <div className="flex items-center space-x-4">
-                  <Link to="/login" className="text-white font-medium hover:text-orange-400 transition-colors">Login</Link>
-                  <Link 
-                    to="/register" 
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold transition-all"
-                  >
-                    Join Us
-                  </Link>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -101,32 +92,20 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
             
             {/* Auth Buttons */}
             <div className="flex flex-col space-y-4 mt-8">
-              {user ? (
-                <Link 
-                  to="/dashboard" 
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-semibold transition-all text-center"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <>
-                  <Link 
-                    to="/login" 
-                    className="text-white text-lg font-medium hover:text-orange-400 transition-colors text-center"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link 
-                    to="/register" 
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-semibold transition-all text-center"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Join Us
-                  </Link>
-                </>
-              )}
+              <Link 
+                to="/login" 
+                className="text-white text-lg font-medium hover:text-orange-400 transition-colors text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
+              <Link 
+                to="/register" 
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-semibold transition-all text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                Join Us
+              </Link>
             </div>
           </div>
         </div>
