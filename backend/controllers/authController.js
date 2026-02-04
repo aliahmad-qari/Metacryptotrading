@@ -35,6 +35,13 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const referralCode = generateReferralCode();
 
+    // Clear any existing problematic indexes first
+    try {
+      await User.collection.dropIndex('username_1');
+    } catch (e) {
+      // Index doesn't exist, continue
+    }
+
     const newUser = new User({
       firstName,
       lastName,
@@ -73,6 +80,21 @@ const register = async (req, res) => {
 
   } catch (error) {
     console.error('Registration error:', error);
+    
+    // Handle duplicate key errors specifically
+    if (error.code === 11000) {
+      if (error.message.includes('email')) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already registered"
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        message: "Account already exists"
+      });
+    }
+    
     res.status(500).json({
       success: false,
       message: error.message || 'Registration failed'

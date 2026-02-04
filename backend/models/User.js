@@ -19,4 +19,8 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Ensure proper indexes
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ referralCode: 1 }, { unique: true, sparse: true });
+
 module.exports = mongoose.model('User', userSchema);
