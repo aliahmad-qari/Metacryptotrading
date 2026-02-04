@@ -1,0 +1,7 @@
+{
+  "name": "Metacryptotrading Simple ",
+  "description": "A high-end cryptocurrency investment platform built with React and Tailwind CSS, featuring professional investment plans, live transaction feeds, and a sophisticated AI-powered trading dashboard.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
