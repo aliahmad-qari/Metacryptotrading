@@ -1,1 +1,18 @@
-{\n  \"version\": 2,\n  \"builds\": [\n    {\n      \"src\": \"backend/server.js\",\n      \"use\": \"@vercel/node\"\n    }\n  ],\n  \"routes\": [\n    {\n      \"src\": \"/api/(.*)\",\n      \"dest\": \"backend/server.js\"\n    }\n  ],\n  \"env\": {\n    \"MONGO_URI\": \"@mongo_uri\",\n    \"JWT_SECRET\": \"@jwt_secret\"\n  }\n}
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
