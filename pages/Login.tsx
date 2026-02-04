@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
+import { apiCall } from '../api';
 
 interface LoginProps {
   setUser: (user: User) => void;
@@ -19,18 +20,10 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
     setLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      console.log('API URL:', apiUrl); // Debug log
-      
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
+      const data = await apiCall('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(formData),
       });
-
-      const data = await response.json();
 
       if (data.success) {
         const user: User = {
@@ -46,9 +39,10 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
         localStorage.setItem('token', data.token);
         navigate('/dashboard');
       } else {
-        setError(data.message);
+        setError(data.message || 'Login failed');
       }
     } catch (error) {
+      console.error('Login error:', error);
       setError('Connection error. Please try again.');
     } finally {
       setLoading(false);

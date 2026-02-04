@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { COUNTRIES, CURRENCIES } from '../constants';
+import { apiCall } from '../api';
 
 interface RegisterProps {
   setUser: (user: User) => void;
@@ -36,24 +37,15 @@ const Register: React.FC<RegisterProps> = ({ setUser }) => {
     }
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      console.log('API URL:', apiUrl); // Debug log
-      
-      const response = await fetch(`${apiUrl}/api/auth/register`, {
+      const data = await apiCall('/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (data.success) {
-        // Registration successful, redirect to login
         navigate('/login');
       } else {
-        setError(data.message);
+        setError(data.message || 'Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
