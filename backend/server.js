@@ -13,8 +13,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',  // Vite dev server
   'http://localhost:3000',  // Alternative React dev server
-  'https://metacryptotrading-ia2b.vercel.app',  // NEW Production domain
-  'https://metacryptotrading.vercel.app',  // OLD Production domain (keep for compatibility)
+  'https://metacryptotrading.vercel.app',  // Production domain
   process.env.FRONTEND_URL  // Dynamic frontend URL from env
 ].filter(Boolean); // Remove undefined values
 
