@@ -996,9 +996,9 @@ const Home: React.FC<{ user: any }> = ({ user }) => {
       {/* Back to Top */}
       <button 
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 z-[100] bg-slate-800/80 p-3 rounded hover:bg-orange-500 transition-colors shadow-xl"
+        className="fixed bottom-6 right-6 z-[100] bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 animate-bounce hover:animate-none group"
       >
-        <i className="fa-solid fa-chevron-up text-white"></i>
+        <i className="fa-solid fa-chevron-up text-slate-800 text-lg group-hover:text-slate-900 transition-colors"></i>
       </button>
 
       <style>{`
