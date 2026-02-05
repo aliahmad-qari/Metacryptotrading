@@ -8,7 +8,7 @@ const Home: React.FC<{ user: any }> = ({ user }) => {
     { img: '/images/news1.jpg', title: 'CRYPTOCURRENCY EXCHANGE', text: 'Trade various cryptocurrencies with our secure and reliable exchange platform.' },
     { img: '/images/news2.jpg', title: 'INVESTMENT PORTFOLIO', text: 'Diversify your investments with our professionally managed portfolio options.' },
     { img: '/images/news3.jpg', title: 'TRADING SIGNALS', text: 'Get expert trading signals and market analysis to maximize your profits.' },
-    { img: '/images/cryptoexchange.jpeg', title: 'CRYPTO EXCHANGE', text: 'Advanced trading tools and features for professional cryptocurrency trading.' }
+    { img: '/images/cryptoexchange.jpeg', title: 'CRYPTO EXCHANGE', text: 'Advanced trading tools and features for  Crypto Investment Global.' }
   ];
 
   const [featureSlide, setFeatureSlide] = useState(0);
