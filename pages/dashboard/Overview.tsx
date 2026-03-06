@@ -4,6 +4,15 @@ import { User } from '../../types';
 
 const Overview: React.FC<{ user: User }> = ({ user }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
+  const [currentUser, setCurrentUser] = useState(user);
+
+  useEffect(() => {
+    // Refresh user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -49,7 +58,7 @@ const Overview: React.FC<{ user: User }> = ({ user }) => {
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <div className="text-orange-500 font-bold text-xs">Dashboard: verified</div>
-            <div className="text-green-600 font-bold text-sm italic">Hello {user.name}, good day!</div>
+            <div className="text-green-600 font-bold text-sm italic">Hello {currentUser.name}, good day!</div>
             <div className="text-orange-500 font-bold text-sm">Mining level: 0%</div>
             <div className="text-black font-bold text-sm">Rate: 0.00000128 BTC</div>
           </div>
@@ -65,7 +74,7 @@ const Overview: React.FC<{ user: User }> = ({ user }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
           <div className="flex flex-col items-center">
             <div className="text-white text-2xl mb-1"><i className="fa-solid fa-wallet"></i></div>
-            <div className="text-yellow-400 font-bold text-xs uppercase tracking-tighter">Capital : .10 USD</div>
+            <div className="text-yellow-400 font-bold text-xs uppercase tracking-tighter">Capital : ${currentUser.balance.toFixed(2)} USD</div>
             <button className="mt-2 bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00] px-2 py-1 text-[10px] rounded hover:bg-[#00ff00]/20">Swap Bonus to Capital.</button>
           </div>
           <div className="flex flex-col items-center">

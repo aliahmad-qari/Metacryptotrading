@@ -1,0 +1,15 @@
+console.log('🚀 Metacryptotrading Setup Complete!');
+console.log('');
+console.log('📋 Default Credentials:');
+console.log('Admin: admin@metacryptotrading.net / admin123');
+console.log('Test User: test@example.com / password123');
+console.log('');
+console.log('🌐 Start the application:');
+console.log('1. npm start (in backend folder)');
+console.log('2. npm run dev (in root folder)');
+console.log('');
+console.log('📱 Access URLs:');
+console.log('Frontend: http://localhost:5173');
+console.log('Admin: http://localhost:5173/#/admin/login');
+console.log('');
+console.log('✅ Ready to deploy!');

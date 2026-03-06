@@ -22,16 +22,28 @@ import BuyCrypto from './pages/dashboard/BuyCrypto';
 import Mining from './pages/dashboard/Mining';
 import TradeView from './pages/dashboard/TradeView';
 import LiveTrade from './pages/dashboard/LiveTrade';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminOverview from './pages/admin/AdminOverview';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminDeposits from './pages/admin/AdminDeposits';
+import AdminWithdrawals from './pages/admin/AdminWithdrawals';
+import AdminTransactions from './pages/admin/AdminTransactions';
 import { User } from './types';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [admin, setAdmin] = useState<any>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
+    const storedAdmin = localStorage.getItem('admin');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }
+    if (storedAdmin) {
+      setAdmin(JSON.parse(storedAdmin));
     }
     setLoading(false);
   }, []);
@@ -70,6 +82,15 @@ const App: React.FC = () => {
           <Route path="mining" element={<Mining />} />
           <Route path="trade-view" element={<TradeView />} />
           <Route path="live-trade" element={<LiveTrade />} />
+        </Route>
+
+        <Route path="/admin/login" element={admin ? <Navigate to="/admin/dashboard" /> : <AdminLogin />} />
+        <Route path="/admin/dashboard" element={admin ? <AdminDashboard /> : <Navigate to="/admin/login" />}>
+          <Route index element={<AdminOverview />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="deposits" element={<AdminDeposits />} />
+          <Route path="withdrawals" element={<AdminWithdrawals />} />
+          <Route path="transactions" element={<AdminTransactions />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

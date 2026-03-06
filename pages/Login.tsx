@@ -122,10 +122,14 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-white/10 text-center">
+          <div className="mt-8 pt-8 border-t border-white/10 text-center space-y-4">
             <p className="text-slate-400">
               Don't have an account? {' '}
               <Link to="/register" className="text-orange-500 hover:underline font-bold">Register Now</Link>
+            </p>
+            <p className="text-slate-400">
+              Admin? {' '}
+              <Link to="/admin/login" className="text-blue-500 hover:underline font-bold">Admin Login</Link>
             </p>
           </div>
         </div>

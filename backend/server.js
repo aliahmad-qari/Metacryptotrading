@@ -11,25 +11,18 @@ const app = express();
 
 // CORS Configuration
 const allowedOrigins = [
-  'http://localhost:5173',  // Vite dev server
-  'http://localhost:3000',  // Alternative React dev server
-  'https://metacryptotrading.vercel.app',  // Production domain
-  process.env.FRONTEND_URL  // Dynamic frontend URL from env
-].filter(Boolean); // Remove undefined values
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://metacryptotrading.vercel.app',
+  'https://metacryptotrading-frontend.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins for deployment
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // Handle preflight requests
@@ -51,9 +44,17 @@ app.get('/api/health', (req, res) => {
 // Routes
 const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
+const depositRoutes = require('./depositRoutes');
+const withdrawalRoutes = require('./withdrawalRoutes');
+const transactionRoutes = require('./transactionRoutes');
+const adminRoutes = require('./adminRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/deposits', depositRoutes);
+app.use('/api/withdrawals', withdrawalRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
