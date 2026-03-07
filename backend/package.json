@@ -8,6 +8,8 @@
     "dev": "nodemon server.js",
     "create-admin": "node create-admin.js",
     "create-production-admin": "node create-production-admin.js",
+    "create-secure-admin": "node create-secure-admin.js",
+    "create-production-secure-admin": "node create-production-secure-admin.js",
     "test-api": "node test-api.js",
     "quick-setup": "node quick-setup.js",
     "simple-setup": "node simple-setup.js"
