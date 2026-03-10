@@ -39,7 +39,10 @@ const Register: React.FC<RegisterProps> = ({ setUser }) => {
     try {
       const data = await apiCall('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          email: formData.email.toLowerCase()
+        }),
       });
 
       if (data.success) {

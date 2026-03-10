@@ -23,7 +23,7 @@ const createAdmin = async () => {
     const admin = new User({
       firstName: 'Admin',
       lastName: 'User',
-      email: 'admin@metacryptotrading.net',
+      email: 'admin@metacryptotrading.net'.toLowerCase(),
       password: hashedPassword,
       role: 'admin',
       country: 'United States',

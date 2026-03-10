@@ -8,7 +8,9 @@ const generateReferralCode = () => {
 
 const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, confirmPassword, country, currency, phone, referral } = req.body;
+    let { firstName, lastName, email, password, confirmPassword, country, currency, phone, referral } = req.body;
+    
+    if (email) email = email.toLowerCase();
 
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       return res.status(400).json({
@@ -104,7 +106,8 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    if (email) email = email.toLowerCase();
 
     if (!email || !password) {
       return res.status(400).json({
@@ -158,7 +161,8 @@ const login = async (req, res) => {
         totalProfit: user.totalProfit,
         bonus: user.bonus,
         miningLevel: user.miningLevel,
-        referralCode: user.referralCode
+        referralCode: user.referralCode,
+        role: user.role
       }
     });
 
@@ -171,4 +175,82 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const adminLogin = async (req, res) => {
+  try {
+    let { email, password } = req.body;
+    if (email) email = email.toLowerCase();
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide email and password"
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email or password"
+      });
+    }
+
+    if (!user.isActive) {
+      return res.status(400).json({
+        success: false,
+        message: "Account is deactivated"
+      });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: "Admin access required"
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email or password"
+      });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET || 'metacryptotrading_jwt_secret_key_2024',
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      success: true,
+      message: "Admin login successful",
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        country: user.country,
+        currency: user.currency,
+        phone: user.phone,
+        balance: user.balance,
+        totalProfit: user.totalProfit,
+        bonus: user.bonus,
+        miningLevel: user.miningLevel,
+        referralCode: user.referralCode,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Login failed'
+    });
+  }
+};
+
+module.exports = { register, login, adminLogin };

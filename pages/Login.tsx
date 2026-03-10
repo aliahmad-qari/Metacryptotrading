@@ -22,7 +22,10 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
     try {
       const data = await apiCall('/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          email: formData.email.toLowerCase()
+        }),
       });
 
       if (data.success) {
