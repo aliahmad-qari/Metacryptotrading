@@ -9,7 +9,7 @@ const AdminDashboard: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('admin');
-    navigate('/admin/login');
+    navigate('/login');
   };
 
   const navItems = [

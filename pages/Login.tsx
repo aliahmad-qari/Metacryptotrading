@@ -5,9 +5,10 @@ import { apiCall } from '../api';
 
 interface LoginProps {
   setUser: (user: User) => void;
+  setAdmin: (admin: any) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ setUser }) => {
+const Login: React.FC<LoginProps> = ({ setUser, setAdmin }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -37,10 +38,18 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
           totalProfit: data.user.totalProfit,
           activeInvestments: 0
         };
-        setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', data.token);
-        navigate('/dashboard');
+
+        if (data.user.role === 'admin') {
+          setAdmin(data.user);
+          localStorage.setItem('admin', JSON.stringify(data.user));
+          localStorage.setItem('adminToken', data.token);
+          navigate('/admin/dashboard');
+        } else {
+          setUser(user);
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('token', data.token);
+          navigate('/dashboard');
+        }
       } else {
         setError(data.message || 'Login failed');
       }
@@ -129,10 +138,6 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
             <p className="text-slate-400">
               Don't have an account? {' '}
               <Link to="/register" className="text-orange-500 hover:underline font-bold">Register Now</Link>
-            </p>
-            <p className="text-slate-400">
-              Admin? {' '}
-              <Link to="/admin/login" className="text-blue-500 hover:underline font-bold">Admin Login</Link>
             </p>
           </div>
         </div>

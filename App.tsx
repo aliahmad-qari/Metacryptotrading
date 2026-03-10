@@ -22,7 +22,6 @@ import BuyCrypto from './pages/dashboard/BuyCrypto';
 import Mining from './pages/dashboard/Mining';
 import TradeView from './pages/dashboard/TradeView';
 import LiveTrade from './pages/dashboard/LiveTrade';
-import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOverview from './pages/admin/AdminOverview';
 import AdminUsers from './pages/admin/AdminUsers';
@@ -60,7 +59,7 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home user={user} />} />
-        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} setAdmin={setAdmin} />} />
         <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register setUser={setUser} />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<Faq />} />
@@ -84,7 +83,7 @@ const App: React.FC = () => {
           <Route path="live-trade" element={<LiveTrade />} />
         </Route>
 
-        <Route path="/admin/login" element={admin ? <Navigate to="/admin/dashboard" /> : <AdminLogin />} />
+        <Route path="/admin/login" element={<Navigate to="/login" />} />
         <Route path="/admin/dashboard" element={admin ? <AdminDashboard /> : <Navigate to="/admin/login" />}>
           <Route index element={<AdminOverview />} />
           <Route path="users" element={<AdminUsers />} />
