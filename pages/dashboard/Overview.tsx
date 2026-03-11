@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { User } from '../../types';
 
 const Overview: React.FC<{ user: User }> = ({ user }) => {
@@ -9,10 +9,11 @@ const Overview: React.FC<{ user: User }> = ({ user }) => {
   useEffect(() => {
     // Refresh user data from localStorage
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const token = localStorage.getItem('token');
+    if (storedUser && token) {
       setCurrentUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const script = document.createElement('script');

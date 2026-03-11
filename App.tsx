@@ -83,8 +83,7 @@ const App: React.FC = () => {
           <Route path="live-trade" element={<LiveTrade />} />
         </Route>
 
-        <Route path="/admin/login" element={<Navigate to="/login" />} />
-        <Route path="/admin/dashboard" element={admin ? <AdminDashboard /> : <Navigate to="/admin/login" />}>
+        <Route path="/admin/dashboard" element={admin ? <AdminDashboard /> : <Navigate to="/login" />}>
           <Route index element={<AdminOverview />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="deposits" element={<AdminDeposits />} />
