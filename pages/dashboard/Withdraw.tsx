@@ -37,15 +37,40 @@ const Withdraw: React.FC = () => {
     setSuccess('');
     setLoading(true);
 
+    // Validation
+    if (!amount || !method || !walletAddress) {
+      setError('Amount, method, and wallet address are required');
+      setLoading(false);
+      return;
+    }
+
+    if (parseFloat(amount) < 10) {
+      setError('Minimum withdrawal amount is $10');
+      setLoading(false);
+      return;
+    }
+
+    if (parseFloat(amount) > userBalance) {
+      setError('Insufficient balance for this withdrawal');
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Authentication token not found. Please login again.');
+        setLoading(false);
+        return;
+      }
+
       const data = await apiCall('/api/withdrawals/create', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({
           amount: parseFloat(amount),
           method,
-          walletAddress
+          walletAddress: walletAddress.trim()
         })
       });
 

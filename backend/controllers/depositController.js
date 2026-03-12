@@ -6,24 +6,40 @@ const createDeposit = async (req, res) => {
   try {
     const { amount, method, transactionId, proofUrl } = req.body;
 
+    // Validation
     if (!amount || !method) {
       return res.status(400).json({ success: false, message: 'Amount and method are required' });
     }
 
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      return res.status(400).json({ success: false, message: 'Amount must be a valid positive number' });
+    }
+
+    if (parsedAmount < 10) {
+      return res.status(400).json({ success: false, message: 'Minimum deposit amount is $10' });
+    }
+
+    const validMethods = ['PayPal', 'Bitcoin', 'USDT'];
+    if (!validMethods.includes(method)) {
+      return res.status(400).json({ success: false, message: 'Invalid payment method' });
+    }
+
     const deposit = new Deposit({
       userId: req.user._id,
-      amount,
+      amount: parsedAmount,
       method,
-      transactionId,
-      proofUrl,
+      transactionId: transactionId || null,
+      proofUrl: proofUrl || null,
       status: 'pending'
     });
 
     await deposit.save();
 
-    res.status(201).json({ success: true, message: 'Deposit request submitted', deposit });
+    res.status(201).json({ success: true, message: 'Deposit request submitted successfully', deposit });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('Deposit creation error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Internal server error' });
   }
 };
 

@@ -9,9 +9,21 @@ const userSchema = new mongoose.Schema({
   country: String,
   currency: { type: String, default: 'USD' },
   phone: String,
-  balance: { type: Number, default: 0 },
-  totalProfit: { type: Number, default: 0 },
-  bonus: { type: Number, default: 0 },
+  balance: { 
+    type: Number, 
+    default: 0,
+    min: [0, 'Balance cannot be negative']
+  },
+  totalProfit: { 
+    type: Number, 
+    default: 0,
+    min: [0, 'Total profit cannot be negative']
+  },
+  bonus: { 
+    type: Number, 
+    default: 0,
+    min: [0, 'Bonus cannot be negative']
+  },
   referralCode: { type: String, unique: true },
   referredBy: String,
   miningLevel: { type: Number, default: 1 },

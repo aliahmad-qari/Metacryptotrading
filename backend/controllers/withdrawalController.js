@@ -6,28 +6,52 @@ const createWithdrawal = async (req, res) => {
   try {
     const { amount, method, walletAddress } = req.body;
 
+    // Validation
     if (!amount || !method || !walletAddress) {
-      return res.status(400).json({ success: false, message: 'All fields are required' });
+      return res.status(400).json({ success: false, message: 'Amount, method, and wallet address are required' });
+    }
+
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      return res.status(400).json({ success: false, message: 'Amount must be a valid positive number' });
+    }
+
+    if (parsedAmount < 10) {
+      return res.status(400).json({ success: false, message: 'Minimum withdrawal amount is $10' });
+    }
+
+    const validMethods = ['PayPal', 'Bitcoin', 'USDT'];
+    if (!validMethods.includes(method)) {
+      return res.status(400).json({ success: false, message: 'Invalid payment method' });
     }
 
     const user = await User.findById(req.user._id);
-    if (user.balance < amount) {
-      return res.status(400).json({ success: false, message: 'Insufficient balance' });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const userBalance = user.balance || 0;
+    if (userBalance < parsedAmount) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Insufficient balance. You have $${userBalance.toFixed(2)} but requested $${parsedAmount.toFixed(2)}` 
+      });
     }
 
     const withdrawal = new Withdrawal({
       userId: req.user._id,
-      amount,
+      amount: parsedAmount,
       method,
-      walletAddress,
+      walletAddress: walletAddress.trim(),
       status: 'pending'
     });
 
     await withdrawal.save();
 
-    res.status(201).json({ success: true, message: 'Withdrawal request submitted', withdrawal });
+    res.status(201).json({ success: true, message: 'Withdrawal request submitted successfully', withdrawal });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('Withdrawal creation error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Internal server error' });
   }
 };
 

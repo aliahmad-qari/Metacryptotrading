@@ -24,11 +24,11 @@ export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
   console.log(`🌐 API Call: ${options.method || 'GET'} ${url}`);
   
   const defaultOptions: RequestInit = {
+    ...options,
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
-    ...options,
   };
   
   try {
